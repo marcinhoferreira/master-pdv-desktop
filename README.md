@@ -1,6 +1,6 @@
 # master-pdv-desktop
 
-Aplicação MasterPDV Desktop para ambiente Windows
+Aplicação PDV Desktop para ambiente Windows
 
 Inicialmente criada na versão 7 do Delphi, esta aplicação foi migrada atualmente para a versão 12 Athens.
 
