@@ -1,0 +1,100 @@
+inherited dlgDesconto: TdlgDesconto
+  BorderStyle = bsDialog
+  Caption = '.:: Desconto ::.'
+  ClientHeight = 207
+  ClientWidth = 524
+  Position = poMainFormCenter
+  ExplicitWidth = 530
+  ExplicitHeight = 236
+  PixelsPerInch = 96
+  TextHeight = 16
+  object gboxAreadeTrabalho: TcxGroupBox
+    Left = 0
+    Top = 0
+    Align = alClient
+    PanelStyle.Active = True
+    TabOrder = 0
+    Height = 157
+    Width = 524
+    object lblTitulo: TcxLabel
+      Left = 3
+      Top = 3
+      Align = alTop
+      Caption = 'lblTitulo'
+      ParentColor = False
+      ParentFont = False
+      Style.Color = clBtnFace
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -32
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = []
+      Style.IsFontAssigned = True
+      Transparent = True
+    end
+    object lblValorDesconto: TcxLabel
+      Left = 39
+      Top = 58
+      Caption = 'Valor:'
+      FocusControl = curredtValorDesconto
+      ParentFont = False
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -19
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = [fsBold]
+      Style.IsFontAssigned = True
+      Transparent = True
+    end
+    object curredtValorDesconto: TcxCurrencyEdit
+      Left = 39
+      Top = 91
+      ParentFont = False
+      Properties.Alignment.Horz = taRightJustify
+      Properties.DisplayFormat = '#,##0.00;-#,##0.00'
+      Properties.EditFormat = '#,##0.00;-#,##0.00'
+      Properties.UseLeftAlignmentOnEditing = False
+      Style.Font.Charset = DEFAULT_CHARSET
+      Style.Font.Color = clWindowText
+      Style.Font.Height = -32
+      Style.Font.Name = 'Tahoma'
+      Style.Font.Style = []
+      Style.IsFontAssigned = True
+      TabOrder = 2
+      Width = 445
+    end
+  end
+  object gboxFerramentas: TcxGroupBox
+    Left = 0
+    Top = 157
+    Align = alBottom
+    PanelStyle.Active = True
+    TabOrder = 1
+    Height = 50
+    Width = 524
+    object btnConfirmar: TcxButton
+      Left = 158
+      Top = 7
+      Width = 114
+      Height = 36
+      Caption = 'C&onfirmar'
+      Default = True
+      OptionsImage.ImageIndex = 4
+      OptionsImage.Images = dmLeiaute.cxImageList24
+      TabOrder = 0
+      OnClick = btnConfirmarClick
+    end
+    object btnCancelar: TcxButton
+      Left = 278
+      Top = 7
+      Width = 114
+      Height = 36
+      Cancel = True
+      Caption = '&Cancelar'
+      ModalResult = 2
+      OptionsImage.ImageIndex = 5
+      OptionsImage.Images = dmLeiaute.cxImageList24
+      TabOrder = 1
+    end
+  end
+end

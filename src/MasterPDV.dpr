@@ -1,0 +1,187 @@
+program MasterPDV;
+
+uses
+  Vcl.OgFirst,
+  Vcl.Forms,
+  MidasLib,
+  VCL.Traducao in '..\..\..\..\Public\Library\VCL.Traducao.pas',
+  Vcl.LealSoftwares.Lib.Funcoes in '..\..\..\..\Public\Library\Vcl.LealSoftwares.Lib.Funcoes.pas',
+  Vcl.LealSoftwares.Model.Criptografia.Interfaces in '..\..\..\..\Public\Model\Criptografia\Vcl.LealSoftwares.Model.Criptografia.Interfaces.pas',
+  Vcl.LealSoftwares.Model.Criptografia in '..\..\..\..\Public\Model\Criptografia\Vcl.LealSoftwares.Model.Criptografia.pas',
+  LealSoftwares.Model.Criptografia.Interfaces in '..\..\..\..\Public\Model\Criptografia\LealSoftwares.Model.Criptografia.Interfaces.pas',
+  LealSoftwares.Model.Criptografia.DCP.Criptografia in '..\..\..\..\Public\Model\Criptografia\LealSoftwares.Model.Criptografia.DCP.Criptografia.pas',
+  LealSoftwares.Model.Criptografia.LockBox.Criptografia in '..\..\..\..\Public\Model\Criptografia\LealSoftwares.Model.Criptografia.LockBox.Criptografia.pas',
+  LealSoftwares.Model.Criptografia.Factory in '..\..\..\..\Public\Model\Criptografia\LealSoftwares.Model.Criptografia.Factory.pas',
+  LealSoftwares.Model.Configuracao.Interfaces in '..\..\..\..\Public\Model\Configuracao\LealSoftwares.Model.Configuracao.Interfaces.pas',
+  LealSoftwares.Model.LogOperacao.Interfaces in '..\..\..\..\Public\Model\LogOperacao\LealSoftwares.Model.LogOperacao.Interfaces.pas',
+  LealSoftwares.Model.LogOperacao in '..\..\..\..\Public\Model\LogOperacao\LealSoftwares.Model.LogOperacao.pas',
+  MasterPDV.Model.Configuracao in '..\..\..\Public\Model\Configuracao\MasterPDV.Model.Configuracao.pas',
+  UFTPHost in '..\..\..\..\Public\Classe\UFTPHost.pas',
+  VCL.Criptografia in '..\..\..\..\Public\Library\VCL.Criptografia.pas',
+  VCL.Funcoes in '..\..\..\..\Public\Library\VCL.Funcoes.pas',
+  VCL.Impressoras in '..\..\..\..\Public\Library\VCL.Impressoras.pas',
+  UMVCInterfaces in '..\..\..\..\Public\Interface\UMVCInterfaces.pas',
+  LealSoftwares.Model.Entidades.Interfaces in '..\..\..\..\Public\Model\Entidades\LealSoftwares.Model.Entidades.Interfaces.pas',
+  LealSoftwares.Model.Interfaces in '..\..\..\..\Public\Model\LealSoftwares.Model.Interfaces.pas',
+  LealSoftwares.View.Interfaces in '..\..\..\..\Public\View\LealSoftwares.View.Interfaces.pas',
+  LealSoftwares.Controller.Interfaces in '..\..\..\..\Public\Controller\LealSoftwares.Controller.Interfaces.pas',
+  UPais in '..\..\..\..\Public\Classe\UPais.pas',
+  UPaisModel in '..\..\..\..\Public\Model\UPaisModel.pas',
+  UEstado in '..\..\..\..\Public\Classe\UEstado.pas',
+  UEstadoModel in '..\..\..\..\Public\Model\UEstadoModel.pas',
+  UCidade in '..\..\..\..\Public\Classe\UCidade.pas',
+  UCidadeModel in '..\..\..\..\Public\Model\UCidadeModel.pas',
+  UEndereco in '..\..\..\..\Public\Classe\UEndereco.pas',
+  UEstabelecimento in '..\..\..\..\Public\Classe\UEstabelecimento.pas',
+  ULocal in '..\..\..\..\Public\Classe\ULocal.pas',
+  URaca in '..\..\..\..\Public\Classe\URaca.pas',
+  UNacionalidade in '..\..\..\..\Public\Classe\UNacionalidade.pas',
+  UNaturalidade in '..\..\..\..\Public\Classe\UNaturalidade.pas',
+  UProfissao in '..\..\..\..\Public\Classe\UProfissao.pas',
+  UPessoa in '..\..\..\..\Public\Classe\UPessoa.pas',
+  UCategoria in '..\..\..\..\Public\Classe\UCategoria.pas',
+  USubCategoria in '..\..\..\..\Public\Classe\USubCategoria.pas',
+  UMarca in '..\..\..\..\Public\Classe\UMarca.pas',
+  UUnidadeMedida in '..\..\..\..\Public\Classe\UUnidadeMedida.pas',
+  UProduto in '..\..\..\..\Public\Classe\UProduto.pas',
+  UFormularioPadrao in 'View\UFormularioPadrao.pas' {frmPadrao},
+  UFormularioPrivilegios in '..\..\..\..\Public\View\UFormularioPrivilegios.pas' {frmPrivilegios},
+  UFormularioRegistro in '..\..\..\..\Public\View\UFormularioRegistro.pas' {frmRegistro},
+  uFrameFoto in 'View\uFrameFoto.pas' {FrameFoto: TFrame},
+  UDialogoWebCam_New in '..\..\..\..\Public\View\UDialogoWebCam_New.pas' {dlgWebCam_New},
+  UDataModuleLeiaute in 'UDataModuleLeiaute.pas' {dmLeiaute: TDataModule},
+  UConexaoModel in 'Model\UConexaoModel.pas',
+  UDataModuleConexao in '..\..\..\Public\Model\Conexao\UDataModuleConexao.pas' {dmConexao: TDataModule},
+  ULicenciamento in 'Licenciamento\ULicenciamento.pas',
+  ULicenca in 'Classes\ULicenca.pas',
+  UDataModuleLicenca in 'Model\UDataModuleLicenca.pas' {dmLicenca: TDataModule},
+  UDialogoConexao in 'View\UDialogoConexao.pas' {dlgConexao},
+  UConexaoController in 'Controller\UConexaoController.pas',
+  UDialogoSenha in 'View\UDialogoSenha.pas' {dlgSenha},
+  UDialogoTrocaSenha in 'View\UDialogoTrocaSenha.pas' {dlgTrocaSenha},
+  USessaoModel in '..\..\..\..\Public\Model\USessaoModel.pas',
+  UDataModuleSessao in '..\..\..\Public\Model\Sessao\UDataModuleSessao.pas' {dmSessao: TDataModule},
+  USessaoController in '..\..\..\..\Public\Controller\USessaoController.pas',
+  UUsuario in '..\..\..\..\Public\Classe\UUsuario.pas',
+  UUsuarioModel in '..\..\..\..\Public\Model\UUsuarioModel.pas',
+  UPrivilegioModel in '..\..\..\..\Public\Model\UPrivilegioModel.pas',
+  UDataModuleAcesso in 'Model\UDataModuleAcesso.pas' {dmAcesso: TDataModule},
+  MasterPDV.View.Usuarios in 'View\MasterPDV.View.Usuarios.pas' {frmUsuarios},
+  UPrivilegioController in '..\..\..\..\Public\Controller\UPrivilegioController.pas',
+  UUsuarioController in '..\..\..\..\Public\Controller\UUsuarioController.pas',
+  MasterPDV.View.Autenticacao in 'View\MasterPDV.View.Autenticacao.pas' {dlgAutenticacao: TDataModule},
+  UDialogoConsultaCPF in 'View\UDialogoConsultaCPF.pas' {dlgConsultaCPF},
+  UDialogoConsultaCNPJ in 'View\UDialogoConsultaCNPJ.pas' {dlgConsultaCNPJ},
+  UDataModuleComponentesACBr in 'Model\UDataModuleComponentesACBr.pas' {dmComponentesACBr: TDataModule},
+  UDialogoStatusOperacao in '..\..\..\..\Public\View\UDialogoStatusOperacao.pas' {dlgStatusOperacao},
+  UDataModuleCadastro in 'Data\MySQL\UDataModuleCadastro.pas' {dmCadastro: TDataModule},
+  UDataModuleProduto in '..\..\..\..\Public\Model\Entidades\UDataModuleProduto.pas' {dmProduto: TDataModule},
+  UEstabelecimentoModel in '..\..\..\..\Public\Model\Entidades\UEstabelecimentoModel.pas',
+  MasterPDV.View.Estabelecimentos in 'View\MasterPDV.View.Estabelecimentos.pas' {frmEstabelecimentos},
+  UEstabelecimentoController in '..\..\..\..\Public\Controller\UEstabelecimentoController.pas',
+  UDispositivo in 'Classes\UDispositivo.pas',
+  UDispositivoModel in 'Model\UDispositivoModel.pas',
+  MasterPDV.View.Dispositivos in 'View\MasterPDV.View.Dispositivos.pas' {frmDispositivos},
+  UDispositivoController in 'Controller\UDispositivoController.pas',
+  UTokenCSC in 'Classes\UTokenCSC.pas',
+  UTokenCSCModel in 'Model\UTokenCSCModel.pas',
+  MasterPDV.View.TokensCSC in 'View\MasterPDV.View.TokensCSC.pas' {frmTokensCSC},
+  UTokenCSCController in 'Controller\UTokenCSCController.pas',
+  UTerminal in 'Classes\UTerminal.pas',
+  UTerminalModel in 'Model\UTerminalModel.pas',
+  MasterPDV.View.Terminais in 'View\MasterPDV.View.Terminais.pas' {frmTerminais},
+  UTerminalController in 'Controller\UTerminalController.pas',
+  UOperador in 'Classes\UOperador.pas',
+  UOperadorModel in 'Model\UOperadorModel.pas',
+  MasterPDV.View.Operadores in 'View\MasterPDV.View.Operadores.pas' {frmOperadores},
+  UOperadorController in 'Controller\UOperadorController.pas',
+  UMasterPDVDataModulePDV in 'Data\MySQL\UMasterPDVDataModulePDV.pas' {dmPDV: TDataModule},
+  UMasterPDVDataModuleRelatorio in 'Data\UMasterPDVDataModuleRelatorio.pas' {dmRelatorio: TDataModule},
+  MasterPDV.View.Imprimir in 'View\MasterPDV.View.Imprimir.pas' {dlgImprimir},
+  MasterPDV.View.IdentificacaoTerminal in 'View\MasterPDV.View.IdentificacaoTerminal.pas' {dlgIdentificacaoTerminal},
+  MasterPDV.View.MenuPrincipal in 'View\MasterPDV.View.MenuPrincipal.pas' {frmMenuPrincipal},
+  MasterPDV.View.AberturaMovimento in 'View\MasterPDV.View.AberturaMovimento.pas' {dlgAberturaMovimento},
+  UMasterPDVDataModuleDocumentosFiscais in 'Data\UMasterPDVDataModuleDocumentosFiscais.pas' {dmDocumentosFiscais: TDataModule},
+  MasterPDV.View.IdentificacaoTipoDocumentoFiscal in 'View\MasterPDV.View.IdentificacaoTipoDocumentoFiscal.pas' {dlgIdentificacaoTipoDocumentoFiscal},
+  MasterPDV.View.IdentificacaoDocumentoRFB in 'View\MasterPDV.View.IdentificacaoDocumentoRFB.pas' {dlgIdentificacaoDocumentoRFB},
+  MasterPDV.View.DocumentosFiscaisEventos in 'View\MasterPDV.View.DocumentosFiscaisEventos.pas' {dlgDocumentosFiscaisEventos},
+  MasterPDV.View.IdentificacaoRepresentante in 'View\MasterPDV.View.IdentificacaoRepresentante.pas' {dlgIdentificacaoRepresentante},
+  UCliente in 'Classes\UCliente.pas',
+  UClienteModel in 'Model\UClienteModel.pas',
+  MasterPDV.View.IdentificacaoCliente in 'View\MasterPDV.View.IdentificacaoCliente.pas' {dlgIdentificacaoCliente},
+  UClienteController in '..\..\..\..\Public\Controller\UClienteController.pas',
+  MasterPDV.View.Acrescimo in 'View\MasterPDV.View.Acrescimo.pas' {dlgAcrescimo},
+  MasterPDV.View.Desconto in 'View\MasterPDV.View.Desconto.pas' {dlgDesconto},
+  MasterPDV.View.FormasRecebimentos in 'View\MasterPDV.View.FormasRecebimentos.pas' {dlgFormasRecebimentos},
+  MasterPDV.View.RecebimentoValor in 'View\MasterPDV.View.RecebimentoValor.pas' {dlgRecebimentoValor},
+  MasterPDV.View.Obrigado in 'View\MasterPDV.View.Obrigado.pas' {frmObrigado},
+  MasterPDV.View.Venda in 'View\MasterPDV.View.Venda.pas' {frmVenda},
+  MasterPDV.View.CancelamentoItemVendido in 'View\MasterPDV.View.CancelamentoItemVendido.pas' {dlgCancelamentoItemVendido},
+  MasterPDV.View.VendaRecebimento in 'View\MasterPDV.View.VendaRecebimento.pas' {frmVendaRecebimento},
+  MasterPDV.View.ConsultaProduto in 'View\MasterPDV.View.ConsultaProduto.pas' {dlgConsultaProduto},
+  MasterPDV.View.PreVenda in 'View\MasterPDV.View.PreVenda.pas' {frmPreVenda},
+  MasterPDV.View.ListaPreVendasPendentes in 'View\MasterPDV.View.ListaPreVendasPendentes.pas' {dlgListaPreVendasPendentes},
+  UDataModuleFiscal in '..\..\..\..\Public\Model\UDataModuleFiscal.pas' {dmFiscal: TDataModule},
+  UDialogoNCM in '..\..\..\..\Public\View\UDialogoNCM.pas' {dlgNCM},
+  UDialogoCST in '..\..\..\..\Public\View\UDialogoCST.pas' {dlgCST},
+  UDialogoCEST in '..\..\..\..\Public\View\UDialogoCEST.pas' {dlgCEST},
+  UCategoriaModel in '..\..\..\..\Public\Model\Entidades\UCategoriaModel.pas',
+  MasterPDV.View.Categorias in 'View\MasterPDV.View.Categorias.pas' {frmCategorias},
+  UCategoriaController in '..\..\..\..\Public\Controller\UCategoriaController.pas',
+  UMarcaModel in '..\..\..\..\Public\Model\Entidades\UMarcaModel.pas',
+  MasterPDV.View.Marcas in 'View\MasterPDV.View.Marcas.pas' {frmMarcas},
+  UMarcaController in '..\..\..\..\Public\Controller\UMarcaController.pas',
+  UUnidadeMedidaModel in '..\..\..\..\Public\Model\Entidades\UUnidadeMedidaModel.pas',
+  MasterPDV.View.UnidadesMedida in 'View\MasterPDV.View.UnidadesMedida.pas' {frmUnidadesMedida},
+  UUnidadeMedidaController in '..\..\..\..\Public\Controller\UUnidadeMedidaController.pas',
+  UProdutoModel in '..\..\..\..\Public\Model\Entidades\UProdutoModel.pas',
+  MasterPDV.View.Produtos in 'View\MasterPDV.View.Produtos.pas' {frmProdutos},
+  UProdutoController in '..\..\..\..\Public\Controller\UProdutoController.pas',
+  MasterPDV.View.Sangria in 'View\MasterPDV.View.Sangria.pas' {dlgSangria},
+  MasterPDV.View.Suprimento in 'View\MasterPDV.View.Suprimento.pas' {dlgSuprimento},
+  MasterPDV.View.Localizar in 'View\MasterPDV.View.Localizar.pas' {dlgLocalizar},
+  MasterPDV.View.ConsultaVendas in 'View\MasterPDV.View.ConsultaVendas.pas' {dlgConsultaVendas},
+  MasterPDV.View.ConsultaDocumentosFiscais in 'View\MasterPDV.View.ConsultaDocumentosFiscais.pas' {dlgConsultaDocumentosFiscais},
+  MasterPDV.View.ConsultaMovimentos in 'View\MasterPDV.View.ConsultaMovimentos.pas' {dlgConsultaMovimentos},
+  MasterPDV.View.RelatorioFechamentoMovimento in 'View\MasterPDV.View.RelatorioFechamentoMovimento.pas' {dlgRelatorioFechamentoMovimento},
+  MasterPDV.View.Recebimento in 'View\MasterPDV.View.Recebimento.pas' {frmRecebimento},
+  MasterPDV.View.ListaClientes in 'View\MasterPDV.View.ListaClientes.pas' {dlgListaClientes},
+  MasterPDV.View.RecebimentoSubTotal in 'View\MasterPDV.View.RecebimentoSubTotal.pas' {frmRecebimentoSubTotal},
+  MasterPDV.View.EditaCampoMemo in 'View\MasterPDV.View.EditaCampoMemo.pas' {dlgEditaCampoMemo},
+  MasterPDV.View.VendaTouchScreen in 'View\MasterPDV.View.VendaTouchScreen.pas' {frmVendaTouchScreen},
+  MasterPDV.View.Consumo in 'View\MasterPDV.View.Consumo.pas' {frmConsumo},
+  MasterPDV.View.CampanhaDesconto in 'View\MasterPDV.View.CampanhaDesconto.pas' {dlgCampanhaDesconto},
+  MasterPDV.View.VendaTroca in 'View\MasterPDV.View.VendaTroca.pas' {dlgVendaTroca},
+  MasterPDV.Model.TEF in 'Model\MasterPDV.Model.TEF.pas' {ModelTEF: TDataModule};
+
+{$R *.res}
+
+begin
+   Application.Initialize;
+   if TogFirst.IsFirstInstance then
+      begin
+         Application.Tag := 5;
+         Application.MainFormOnTaskbar := True;
+         Application.Title := 'PDV do Sistema Integrado de Automação Comercial';
+         Application.CreateForm(TdmLeiaute, dmLeiaute);
+         Application.CreateForm(TdmConexao, dmConexao);
+         Application.CreateForm(TdmSessao, dmSessao);
+         Application.CreateForm(TdmLicenca, dmLicenca);
+         Application.CreateForm(TdmAcesso, dmAcesso);
+         Application.CreateForm(TdmPDV, dmPDV);
+         Application.CreateForm(TdmFiscal, dmFiscal);
+         Application.CreateForm(TdmCadastro, dmCadastro);
+         Application.CreateForm(TdmProduto, dmProduto);
+         Application.CreateForm(TdmDocumentosFiscais, dmDocumentosFiscais);
+         Application.CreateForm(TdmComponentesACBr, dmComponentesACBr);
+         Application.CreateForm(TdmRelatorio, dmRelatorio);
+         Application.CreateForm(TModelTEF, ModelTEF);
+         Application.CreateForm(TfrmMenuPrincipal, frmMenuPrincipal);
+         Application.CreateForm(TdlgIdentificacaoTipoDocumentoFiscal, dlgIdentificacaoTipoDocumentoFiscal);
+         Application.CreateForm(TdlgStatusOperacao, dlgStatusOperacao);
+         Application.CreateForm(TfrmObrigado, frmObrigado);
+         Application.Run;
+      end
+   else
+      TogFirst.ActivateFirstInstance;
+end.
